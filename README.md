@@ -173,8 +173,8 @@ Example:
 ```javascript
 myapp.controller('myController',[
                     '$scope',
-                    'SPRESTListServices',
-                    function($scope,$SPRESTListServices){
+                    'SPRESTUserServices',
+                    function($scope,$SPRESTUserServices){
                       $scope.getFieldObj=SPRESTItemServices.getCurrentUser({
                                                         siteUrl:'http://mySite.com/sites/mysitecollection', //required string
                                                       })
