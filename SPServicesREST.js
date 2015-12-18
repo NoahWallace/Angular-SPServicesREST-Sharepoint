@@ -1,5 +1,5 @@
 angular.module('SPServicesREST', [])
-    .service('SPRESTItemServices', function ($q, $http) {
+    .service('SPRESTItemServices', ['$q', '$http', 'SPRESTListServices', function ($q, $http, SPRESTListServices) {
         return {
             getItems: function (params) {
                 var url;
@@ -66,14 +66,13 @@ angular.module('SPServicesREST', [])
                 });
                 return defer.promise;
             },
-
             createItem: function (params) {
                 var deferrd = $q.defer();
                 if (params.siteUrl && params.listName && params.item) {
 
                     $q.all([
                         this.getContextInfo(params.siteUrl),
-                        this.getList({
+                        SPRESTListServices.getList({
                             'siteUrl': params.siteUrl,
                             'listName': params.listName
                         })
@@ -101,7 +100,12 @@ angular.module('SPServicesREST', [])
                     });
                 }
                 return deferrd.promise;
-            },
+            }
+
+        }
+    }])
+    .service('SPRESTListServices', function ($q, $http) {
+        return {
             getList: function (params) {
                 var defered = $q.defer();
                 $http({
@@ -114,11 +118,7 @@ angular.module('SPServicesREST', [])
                     defered.reject(err);
                 });
                 return defered.promise;
-            }
-        }
-    })
-    .service('SPRESTListServices', function ($q, $http) {
-        return {
+            },
             getField: function (params) {
                 var defered = $q.defer();
                 $http({
